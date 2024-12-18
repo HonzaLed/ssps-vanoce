@@ -24,10 +24,11 @@
 					'input[type="mail"]'
 				) as HTMLInputElement
 			)?.value;
-			
+
 			displayed_username = displayed_username.trim();
 			displayed_email = displayed_email.trim();
-            if (false) {} // TODO: validate email using regex
+			if (false) {
+			} // TODO: validate email using regex
 
 			$state.username = displayed_username;
 			$state.email = displayed_email;
@@ -43,23 +44,23 @@
 
 <!-- <button use:animationAction on:click={() => triggerAnimation('send')}> shake me </button> -->
 {#if displayed_username === null}
-<form method="GET" action="#">
-	<input
-		type="text"
-		class="border-2 border-gray-300 text-white p-3 rounded-xl bg-transparent custom-shadow w-56"
-		placeholder="Enter your username"
-		on:keypress={onKeyPress}
-		required
-	/>
-	<input
-		type="mail"
-		class="border-2 border-gray-300 text-white p-3 mt-4 rounded-xl bg-transparent custom-shadow w-56"
-		placeholder="Enter your school email"
-		pattern="[A-Za-z0-9]+@skola\.ssps\.cz"
-		on:keypress={onKeyPress}
-		required
-	/>
-</form>
+	<form method="GET" action="#">
+		<input
+			type="text"
+			class="border-2 border-gray-300 text-white p-3 rounded-xl bg-transparent custom-shadow w-56"
+			placeholder="Enter your username"
+			on:keypress={onKeyPress}
+			required
+		/>
+		<input
+			type="mail"
+			class="border-2 border-gray-300 text-white p-3 mt-4 rounded-xl bg-transparent custom-shadow w-56"
+			placeholder="Enter your school email"
+			pattern="[A-Za-z0-9]+@skola\.ssps\.cz"
+			on:keypress={onKeyPress}
+			required
+		/>
+	</form>
 {:else if showUsername}
 	<div
 		class="border-2 border-gray-300 text-white p-3 rounded-xl bg-transparent custom-shadow w-56 text-ellipsis overflow-hidden"
@@ -76,6 +77,7 @@
 	>
 		{displayed_email}
 	</div>
+{/if}
 
 <style>
 	:global(.video-appear) {
