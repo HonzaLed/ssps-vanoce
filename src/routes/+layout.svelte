@@ -9,8 +9,11 @@
 
 <style>
 	:global(:root) {
-		--color-outer: rgb(10, 25, 52);
-		--color-inner: rgb(45, 97, 105);
+		--color-outer-s: rgb(10, 25, 52);
+		--color-inner-s: rgb(45, 97, 105);
+
+		--color-outer: hsl(from var(--color-outer-s) h s calc(l - 10));
+		--color-inner: hsl(from var(--color-inner-s) h s calc(l - 10));
 		/* --color-inner: rgb(215,32,32);
         --color-outer: rgba(67,135,16,1); */
 	}
