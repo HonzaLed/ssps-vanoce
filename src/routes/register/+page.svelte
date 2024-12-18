@@ -45,6 +45,7 @@
 <!-- <button use:animationAction on:click={() => triggerAnimation('send')}> shake me </button> -->
 {#if displayed_username === null}
 	<form method="GET" action="#">
+		<div class="flex flex-col gap-2">
 		<input
 			type="text"
 			class="border-2 border-gray-300 text-white p-3 rounded-xl bg-transparent custom-shadow w-56"
@@ -60,6 +61,7 @@
 			on:keypress={onKeyPress}
 			required
 		/>
+	</div>
 	</form>
 {:else if showUsername}
 	<div
