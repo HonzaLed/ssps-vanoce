@@ -45,12 +45,14 @@ export type Task = {
 
 export type TaskBasic = {
     title: string,
-    points: number
+    description: string | null,
+    points: number,
+    no_answer: boolean,
 };
 
 export type QrInfo = {
     success: boolean,
-    task: Task
+    task: Task,
 };
 
 export type QrAnswer = {

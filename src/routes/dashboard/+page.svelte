@@ -1,7 +1,7 @@
 <script lang="ts">
 	import RunnerDashboard from "$lib/components/dashboards/RunnerDashboard.svelte";
 	import SolverDashboard from "$lib/components/dashboards/SolverDashboard.svelte";
-    
+
     import { state } from "$lib/state";
 	import { onMount } from "svelte";
 
@@ -22,7 +22,8 @@
 </style>
 
 {#if $state.role === "runner"}
-    <RunnerDashboard />
+    <SolverDashboard />
+    <!-- <RunnerDashboard /> -->
 {:else if $state.role === "solver"}
     <SolverDashboard />
 {:else}

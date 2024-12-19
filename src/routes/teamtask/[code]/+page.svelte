@@ -21,17 +21,7 @@
 	let error: string | null = null;
 
 	onMount(async () => {
-		console.log($state.username);
-		console.log($state.team);
-		let qr_r = await getQr(code);
-		if (qr_r.isErr()) {
-			error = qr_r.unwrapErr()!;
-			pageState = PageState.ERROR;
-			return;
-		}
-		let qr_info = qr_r.unwrap()! as QrCode;
-
-		let qr_info_r = await getQrInfo(qr_info.task_group!);
+		let qr_info_r = await getQrInfo(code);
 		if (qr_info_r.isErr()) {
 			error = qr_info_r.unwrapErr()!;
 			pageState = PageState.ERROR;
