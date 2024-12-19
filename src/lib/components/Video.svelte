@@ -31,7 +31,6 @@
 			autoplay
 			preload="auto"
 			{controls}
-			muted
 			class="rounded-xl custom-shadow"
 			bind:this={videoElement}
 			on:ended={() => {

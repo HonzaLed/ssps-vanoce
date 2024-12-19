@@ -17,10 +17,18 @@ export type Register = {
     error: string | null,
 }
 
+export type TeamInfo = {
+    success: boolean;
+    role: "runner" | "solver" | null;
+    team: Team;
+    error: string | null;
+}
+
 export type Team = {
     id: string;
     members: string[];
     number: number;
+    score: number;
 }
 
 export type QrCode = {
@@ -29,12 +37,33 @@ export type QrCode = {
     error: string | null;
 }
 
+export type QrInfo = {
+    success: boolean,
+    task: {
+        identifier: string,
+        scanner_task: {
+            title: string,
+            points: number
+        },
+        team_task: {
+            title: string,
+            points: number
+        }
+    }
+};
+
+export type QrAnswer = {
+    success: boolean,
+    correct: boolean | null,
+    error: string | null,
+}
+
 async function req(url: string, body: object | null = null) {
     const req_url = API_URL + url;
     if (body !== null) {
         return await fetch(req_url, { method: "POST", body: JSON.stringify(body), credentials: "include" });
     }
-    return await fetch(req_url, {credentials: "include"});
+    return await fetch(req_url, { credentials: "include" });
 }
 
 export async function getEventCountdown(spoof: number | null = null): Promise<Result<Countdown, any>> {
@@ -61,19 +90,51 @@ export async function register(username: string, email: string): Promise<Result<
     }
 }
 
-export async function getQR(code: string): Promise<Result<QrCode, string>> {
-    let response = await req(`/tasks/on-scan?task=${code}`);
-    if (response.ok) {
-        return Result.Ok(await response.json());
+export async function getTeamInfo(): Promise<Result<TeamInfo, string>> {
+    let response = await req(`/teams/get-info/`);
+    if (response.status === 500) {
+        return Result.Error("Internal server error");
     }
-    return Result.Error("Failed to get QR code");
+    const j = await response.json();
+    if (j.success) {
+        return Result.Ok(j);
+    }
+    return Result.Error(j.error);
 }
 
-// export async function answerQrTask(code: string, answer: string): Promise<Result<string, string>> {
-//     const body = { answer: answer };
-//     let response = await req(`/api/tasks/answer?task=${code}&answer=${answer}`);
-//     if (response.ok) {
-//         return Result.Ok(await response.text());
-//     }
-//     return Result.Error("Failed to answer task");
-// }
+export async function getQr(code: string): Promise<Result<QrCode, string>> {
+    let response = await req(`/tasks/on-scan/?task=${code}`);
+    if (response.status === 500) {
+        return Result.Error("Internal server error");
+    }
+    const j = await response.json();
+    if (j.success) {
+        return Result.Ok(j);
+    }
+    return Result.Error(j.error);
+}
+
+export async function getQrInfo(code: string): Promise<Result<QrInfo, string>> {
+    let response = await req(`/tasks/get-info/?task=${code}`);
+    if (response.status === 500) {
+        return Result.Error("Internal server error");
+    }
+    const j = await response.json();
+    if (j.success) {
+        return Result.Ok(j);
+    }
+    return Result.Error(j.error);
+}
+
+export async function answerQrCode(code: string, answer: string, type: "scanner" | "team"): Promise<Result<QrAnswer, string>> {
+    const body = { task: code, answer: answer, type: type };
+    let response = await req(`/tasks/answer/`, body);
+    if (response.status === 500) {
+        return Result.Error("Internal server error");
+    }
+    const j = await response.json();
+    if (j.success) {
+        return Result.Ok(j);
+    }
+    return Result.Error(j.error);
+}

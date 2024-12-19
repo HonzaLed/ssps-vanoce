@@ -4,6 +4,24 @@
 	import { onMount } from 'svelte';
 	import { state } from '$lib/state';
 	import { browser } from "$app/environment";
+	import { getTeamInfo } from '$lib/api';
+
+	async function refreshTeam() {
+		console.log("Refreshing team...");
+		const team_info_r = await getTeamInfo();
+		if (team_info_r.isErr()) {
+			console.error(team_info_r.unwrapErr());
+			return;
+		}
+		const team = team_info_r.unwrap();
+		if (!team) {
+			console.error("Failed to unwrap team info");
+			return;
+		}
+		console.log("updated team", team);
+		$state.team = team.team;
+		setTimeout(refreshTeam, 5000);
+	}
 
 	onMount(() => {
 		if (!browser) {return;}
@@ -13,13 +31,20 @@
 		if (stored_team != null) {
 			$state.team = JSON.parse(stored_team);
 			console.log($state.team);
+			refreshTeam();
+			console.log("Started!");
 		}
+	});
+
+	onMount(() => {
+		refreshTeam();
 	});
 </script>
 
 {#if $state.team != null}
 	<div class="absolute top-0 right-0 text-gray-200 pt-2 pr-4 text-xl">
-		Your team is {$state.team.number}
+		Your team is {$state.team.number}<br>
+		Score: {$state.team.score}
 	</div>
 {/if}
 <div class="h-dvh w-screen flex flex-col justify-center items-center custom-background text-white">
