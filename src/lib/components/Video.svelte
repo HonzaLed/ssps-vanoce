@@ -25,6 +25,17 @@
 
 <div use:autoAnimate={{ duration: 500, easing: 'ease-in-out' }} class:hidden={!visible}>
 	<div class="rounded-xl video-container">
+		{#if !videoEnded}
+			<button
+				class="play-button"
+				on:click={() => {
+					videoElement.play();
+					videoEnded = false;
+				}}
+			>
+				<i class="fa-solid fa-play"></i>
+			</button>
+		{/if}
 		<!-- svelte-ignore a11y_media_has_caption -->
 		<video
 			src="/video.mp4"
@@ -44,9 +55,7 @@
 			{#if replayable}
 				<button
 					class="border-2 border-gray-300 text-white p-3 rounded-xl bg-transparent shadow-button"
-					on:click={(/*, videoEnded = false*/) => (
-						(videoElement.currentTime = 0), videoElement.play()
-					)}
+					on:click={() => restartVideo()}
 				>
 					Replay <i class="fa-solid fa-arrow-rotate-left"></i></button
 				>
@@ -63,5 +72,18 @@
 	.video-container {
 		transition: all 0.5s;
 		-webkit-transition: -webkit-flex 500ms ease-in-out;
+		position: relative;
+	}
+	.play-button {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: transparent;
+		color: transparent;
+		border: none;
+		cursor: pointer;
+		font-size: 24px;
 	}
 </style>

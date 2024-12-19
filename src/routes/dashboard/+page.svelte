@@ -12,10 +12,20 @@
     });
 </script>
 
+<style>
+    .text-glow {
+        color: white; /* Text color */
+        text-shadow: 0 0 5px white, 0 0 10px white, 0 0 15px white; /* Glowing effect */
+        font-size: xx-large;
+        text-align: center; /* Center the text */
+    }
+</style>
+
 {#if $state.role === "runner"}
     <RunnerDashboard />
 {:else if $state.role === "solver"}
     <SolverDashboard />
 {:else}
-    <h1 class="text-white text-center text-6xl">Unknown role</h1>
+    <h1 class="text-glow">Your Role: Unknown</h1>
 {/if}
+<button on:click={() => window.location.href = "/qrscanner"} class="align-middle items-center text-glow">QR Scanner</button>
