@@ -1,19 +1,18 @@
 <script lang="ts">
     import { onMount, onDestroy } from "svelte";
-    import { createEventDispatcher } from "svelte";
     import jsQR from "jsqr";
 
-    const dispatch = createEventDispatcher();
+    export let onQrScanned: (event: {data: string}) => void;
     
     export let className = "";
     $: classData = className + " object-none";
   
     // export let 
 
-    let video;
-    let canvas;
-    let canvasCtx;
-    let stream;
+    let video: HTMLVideoElement;
+    let canvas: HTMLCanvasElement;
+    let canvasCtx: CanvasRenderingContext2D | null;
+    let stream: MediaStream | null;
     let qrData = "";
     let errorMsg = "";
   
@@ -26,7 +25,7 @@
       const code = jsQR(imageData.data, canvas.width, canvas.height);
   
       if (code) {
-        dispatch("qrScanned", {data: code.data});
+        onQrScanned({data: code.data});
       }
   
       // Continue scanning
@@ -41,7 +40,7 @@
         video.setAttribute("playsinline", "true");
         video.play();
         requestAnimationFrame(scanQRCode);
-      } catch (err) {
+      } catch (err: any) {
         errorMsg = "Could not access the camera: " + err.message;
       }
     };
@@ -53,7 +52,7 @@
   
     onDestroy(() => {
       if (stream) {
-        stream.getTracks().forEach(track => track.stop());
+        stream.getTracks().forEach((track: { stop: () => any; }) => track.stop());
       }
     });
 </script>

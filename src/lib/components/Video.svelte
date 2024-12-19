@@ -40,7 +40,7 @@
 			}}
 		></video>
 	</div>
-	{#if videoEnded && autoRedirect}
+	{#if videoEnded && !autoRedirect}
 		<div class="flex items-center justify-center pt-8 gap-8">
 			{#if replayable}
 				<button

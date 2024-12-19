@@ -1,13 +1,29 @@
 <script>
 	import '../app.css';
 	import '@fortawesome/fontawesome-free/css/all.min.css';
+	import { onMount } from 'svelte';
+	import { state } from '$lib/state';
+	import { browser } from "$app/environment";
+
+	onMount(() => {
+		if (!browser) {return;}
+		console.log("Running on browser");
+		const stored_team = localStorage.getItem('team');
+		console.log(stored_team);
+		if (stored_team != null) {
+			$state.team = JSON.parse(stored_team);
+			console.log($state.team);
+		}
+	});
 </script>
 
-<div class="absolute top-0 right-0 text-gray-200 pt-2 pr-4 text-xl">
-	Your team is 5
-</div>
+{#if $state.team != null}
+	<div class="absolute top-0 right-0 text-gray-200 pt-2 pr-4 text-xl">
+		Your team is {$state.team.number}
+	</div>
+{/if}
 <div class="h-dvh w-screen flex flex-col justify-center items-center custom-background text-white">
-<slot />
+	<slot />
 </div>
 
 <style>
@@ -37,14 +53,12 @@
 
 	:global(.custom-glow) {
 		--color-glow: hsl(from var(--color-inner) h calc(s + 2) calc(l + 12));
-		box-shadow:
-			0px 0px 32px 6px var(--color-glow)
+		box-shadow: 0px 0px 32px 6px var(--color-glow);
 	}
 
 	:global(.text-glow) {
 		--color-glow: hsl(from var(--color-inner) h calc(s + 2) calc(l + 50));
-		text-shadow:
-			0px 0px 17px #fff /*var(--color-glow)*/
+		text-shadow: 0px 0px 17px #fff; /*var(--color-glow)*/
 	}
 
 	:global(shadow-button) {

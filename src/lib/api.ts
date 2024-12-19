@@ -11,17 +11,30 @@ export type Countdown = {
 
 export type Register = {
     success: boolean,
-    role: string | null,
+    role: "runner" | "solver" | null,
     role_description: string | null,
+    team: Team | null,
     error: string | null,
+}
+
+export type Team = {
+    id: string;
+    members: string[];
+    number: number;
+}
+
+export type QrCode = {
+    success: boolean;
+    task_group: string | null;
+    error: string | null;
 }
 
 async function req(url: string, body: object | null = null) {
     const req_url = API_URL + url;
     if (body !== null) {
-        return await fetch(req_url, { method: "POST", body: JSON.stringify(body) });
+        return await fetch(req_url, { method: "POST", body: JSON.stringify(body), credentials: "include" });
     }
-    return await fetch(req_url);
+    return await fetch(req_url, {credentials: "include"});
 }
 
 export async function getEventCountdown(spoof: number | null = null): Promise<Result<Countdown, any>> {
@@ -48,8 +61,8 @@ export async function register(username: string, email: string): Promise<Result<
     }
 }
 
-export async function getQR(code: string): Promise<Result<string, string>> {
-    let response = await req(`/tasks/getqr?code=${code}`);
+export async function getQR(code: string): Promise<Result<QrCode, string>> {
+    let response = await req(`/tasks/on-scan?task=${code}`);
     if (response.ok) {
         return Result.Ok(await response.json());
     }

@@ -1,5 +1,10 @@
 <script lang="ts">
 	import Video from "$lib/components/Video.svelte";
+	import { state } from "$lib/state";
 </script>
 
-<Video visible={true} href="/register" replayable={false} autoRedirect={true} controls={false} />
+{#if $state.loggedIn}
+	<Video visible={true} href="/dashboard" replayable={true} autoRedirect={false} controls={true} />
+{:else}
+	<Video visible={true} href="/register" replayable={false} autoRedirect={true} controls={false} />
+{/if}
