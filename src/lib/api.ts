@@ -37,24 +37,37 @@ export type QrCode = {
     error: string | null;
 }
 
+export type Task = {
+    identifier: string,
+    scanner_task: TaskBasic,
+    team_task: TaskBasic,
+}
+
+export type TaskBasic = {
+    title: string,
+    points: number
+};
+
 export type QrInfo = {
     success: boolean,
-    task: {
-        identifier: string,
-        scanner_task: {
-            title: string,
-            points: number
-        },
-        team_task: {
-            title: string,
-            points: number
-        }
-    }
+    task: Task
 };
 
 export type QrAnswer = {
     success: boolean,
     correct: boolean | null,
+    error: string | null,
+}
+
+export type ActiveTasks = {
+    success: boolean,
+    active_tasks: TaskBasic[] | null,
+    error: string | null,
+}
+
+export type CompletedTasks = {
+    success: boolean,
+    completed_tasks: TaskBasic[] | null,
     error: string | null,
 }
 
@@ -67,7 +80,7 @@ async function req(url: string, body: object | null = null) {
 }
 
 export async function getEventCountdown(spoof: number | null = null): Promise<Result<Countdown, any>> {
-    let response = await req("/event/countdown" + (spoof !== null ? "?start_timestamp=" + spoof : ""));
+    let response = await req("/event/countdown/" + (spoof !== null ? "?start_timestamp=" + spoof : ""));
     if (response.ok) {
         return Result.Ok(await response.json());
     }
@@ -129,6 +142,30 @@ export async function getQrInfo(code: string): Promise<Result<QrInfo, string>> {
 export async function answerQrCode(code: string, answer: string, type: "scanner" | "team"): Promise<Result<QrAnswer, string>> {
     const body = { task: code, answer: answer, type: type };
     let response = await req(`/tasks/answer/`, body);
+    if (response.status === 500) {
+        return Result.Error("Internal server error");
+    }
+    const j = await response.json();
+    if (j.success) {
+        return Result.Ok(j);
+    }
+    return Result.Error(j.error);
+}
+
+export async function getActiveTasks(): Promise<Result<ActiveTasks, string>> {
+    let response = await req(`/tasks/list-active/`);
+    if (response.status === 500) {
+        return Result.Error("Internal server error");
+    }
+    const j = await response.json();
+    if (j.success) {
+        return Result.Ok(j);
+    }
+    return Result.Error(j.error);
+}
+
+export async function getCompletedTasks(): Promise<Result<CompletedTasks, string>> {
+    let response = await req(`/tasks/list-completed/`);
     if (response.status === 500) {
         return Result.Error("Internal server error");
     }

@@ -18,7 +18,6 @@
 			console.error("Failed to unwrap team info");
 			return;
 		}
-		console.log("updated team", team);
 		$state.team = team.team;
 		setTimeout(refreshTeam, 5000);
 	}
@@ -27,12 +26,9 @@
 		if (!browser) {return;}
 		console.log("Running on browser");
 		const stored_team = localStorage.getItem('team');
-		console.log(stored_team);
 		if (stored_team != null) {
 			$state.team = JSON.parse(stored_team);
-			console.log($state.team);
 			refreshTeam();
-			console.log("Started!");
 		}
 	});
 

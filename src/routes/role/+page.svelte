@@ -39,10 +39,10 @@
 		setTimeout(() => {
 			// TODO: Fetch role description
 			roleDescription = `You're a <role>, your task is to.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse nisl. Aliquam erat volutpat. Phasellus et lorem id felis nonummy placerat. Etiam commodo dui eget wisi. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Morbi leo mi, nonummy eget tristique non, rhoncus non leo. Nullam sit amet magna in magna gravida vehicula. Aliquam ornare wisi eu metus. Vestibulum fermentum tortor id mi. Integer malesuada. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Phasellus et lorem id felis nonummy placerat. Aliquam erat volutpat. Donec quis nibh at felis congue commodo. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Etiam quis quam. Aliquam erat volutpat. Duis ante orci, molestie vitae vehicula venenatis, tincidunt ac pede.`; //res.role_description;
-		}, 5000);
+		}, 3000);
 		setTimeout(() => {
 			showButtons = true;
-		}, 7000);
+		}, 5000);
 		pageState = PageState.SUCCESS;
 	});
 </script>
