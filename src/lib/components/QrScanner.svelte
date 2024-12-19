@@ -1,4 +1,3 @@
-<!-- HERE QR HANDELER -->
 <script lang="ts">
     import { onMount, onDestroy } from "svelte";
     import { createEventDispatcher } from "svelte";
@@ -9,6 +8,8 @@
     export let className = "";
     $: classData = className + " object-none";
   
+    // export let 
+
     let video;
     let canvas;
     let canvasCtx;
@@ -25,7 +26,7 @@
       const code = jsQR(imageData.data, canvas.width, canvas.height);
   
       if (code) {
-        window.location.href = code.data;
+        dispatch("qrScanned", {data: code.data});
       }
   
       // Continue scanning
