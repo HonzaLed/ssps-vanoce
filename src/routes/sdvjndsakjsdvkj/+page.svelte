@@ -6,5 +6,5 @@
 {#if $state.loggedIn}
 	<Video visible={true} href="/dashboard" replayable={true} autoRedirect={false} controls={true} />
 {:else}
-	<Video visible={true} href="/register" replayable={false} autoRedirect={true} controls={false} />
+	<Video visible={true} href="/register" replayable={false} autoRedirect={true} controls={true} />
 {/if}

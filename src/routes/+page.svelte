@@ -9,7 +9,7 @@
 	let target: number = 0;
 
 	async function refreshFromServer() {
-		let event_r = await getEventCountdown(1734562920);
+		let event_r = await getEventCountdown();
         if (event_r.isErr()) {
             console.error(event_r.unwrapErr());
             return;
