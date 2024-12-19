@@ -2,16 +2,22 @@
 	import autoAnimate from '@formkit/auto-animate';
 	import { onMount } from 'svelte';
 	import { getEventCountdown } from '$lib/api';
-	import Countdown from '$lib/Countdown.svelte';
+	import Countdown from '$lib/components/Countdown.svelte';
 	import { goto } from '$app/navigation';
 
 	let timeLeft: Date | null = null;
 	let target: number = 0;
 
 	async function refreshFromServer() {
-		let event = await getEventCountdown(1734560040);
+		let event_r = await getEventCountdown(1734562920);
+        if (event_r.isErr()) {
+            console.error(event_r.unwrapErr());
+            return;
+        }
+        let event = event_r.unwrap()!;
+
 		if (event.started) {
-			goto(event.redirect_url);
+			goto(event.redirect_url!);
 			return;
 		}
 		target = event.starts_at * 1000;
