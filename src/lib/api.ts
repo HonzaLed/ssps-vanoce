@@ -48,6 +48,7 @@ export type TaskBasic = {
     description: string | null,
     points: number,
     no_answer: boolean,
+    identifier: string,
 };
 
 export type QrInfo = {

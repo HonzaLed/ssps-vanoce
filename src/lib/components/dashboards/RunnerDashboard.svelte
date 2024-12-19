@@ -5,3 +5,4 @@
     };
 </script>
 
+<button on:click={() => window.location.href = "/qrscanner"} class="dow-button align-middle items-center text-glow">QR Scanner</button>

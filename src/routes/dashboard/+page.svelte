@@ -22,11 +22,10 @@
 </style>
 
 {#if $state.role === "runner"}
-    <SolverDashboard />
-    <!-- <RunnerDashboard /> -->
+    <!-- <SolverDashboard /> -->
+    <RunnerDashboard />
 {:else if $state.role === "solver"}
     <SolverDashboard />
 {:else}
     <h1 class="text-glow">Your Role: Unknown</h1>
 {/if}
-<button on:click={() => window.location.href = "/qrscanner"} class="align-middle items-center text-glow">QR Scanner</button>

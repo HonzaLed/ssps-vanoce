@@ -12,6 +12,8 @@
 	let videoElement: HTMLVideoElement;
 	let videoEnded: boolean = false;
 
+	let a = false;
+
 	export const restartVideo = () => {
 		videoElement.currentTime = 0;
 		videoElement.muted = false;
@@ -25,12 +27,13 @@
 
 <div use:autoAnimate={{ duration: 500, easing: 'ease-in-out' }} class:hidden={!visible}>
 	<div class="rounded-xl video-container">
-		{#if !videoEnded}
+		{#if !a}
 			<button
 				class="play-button"
 				on:click={() => {
 					videoElement.play();
 					videoEnded = false;
+					a = true;
 				}}
 			>
 				<i class="fa-solid fa-play"></i>
